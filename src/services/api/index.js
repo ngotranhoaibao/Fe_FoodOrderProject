@@ -19,7 +19,7 @@ export const removeAuthTokens = () => {
   localStorage.removeItem("userInfo");
 };
 
-const API_BASE = "http://localhost:3001";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 const api = axios.create({
   baseURL: API_BASE,
