@@ -19,14 +19,14 @@ const LoginPage = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const idToken = await result.user.getIdToken();
 
-      toast.loading("Đang xác thực tài khoản...", { id: "google-auth" }); // 2. Gửi ID Token xuống Backend và xử lý lưu Access Token, User Info // Hàm googleLoginContext đã bao gồm gọi API, lưu localStorage và navigate
+      toast.loading("Đang xác thực tài khoản...", { id: "google-auth" });
 
       await googleLoginContext(idToken);
 
       toast.success("Đăng nhập Google thành công!", { id: "google-auth" });
     } catch (error) {
       console.error("Lỗi đăng nhập Google:", error);
-      const errorMessage = error.message || "Đăng nhập Google thất bại."; // Cố gắng lấy thông báo lỗi từ Backend nếu có
+      const errorMessage = error.message || "Đăng nhập Google thất bại."; 
       const backendError = error?.response?.data?.message || null;
 
       toast.error(backendError || errorMessage, { id: "google-auth" });

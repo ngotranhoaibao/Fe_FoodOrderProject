@@ -9,12 +9,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
-import { UtensilsCrossed, User } from "lucide-react";
+import { UtensilsCrossed } from "lucide-react";
 
-const LoginCard = ({
-  loading = false,
-  handleGoogleSignIn,
-}) => {
+const LoginCard = ({ loading = false, handleGoogleSignIn }) => {
   return (
     <Card className="w-full max-w-md mx-4 rounded-xl shadow-2xl bg-card/95 backdrop-blur p-6 text-center">
       <CardHeader className="space-y-4">
@@ -64,17 +61,6 @@ const LoginCard = ({
               Sign in with Google
             </>
           )}
-        </Button>
-        <div className="flex items-center gap-2">
-          <span className="flex-1 border-t" />
-          <span className="text-xs uppercase text-muted-foreground">Or</span>
-          <span className="flex-1 border-t" />
-        </div>
-        <Button
-          onClick={handleGoogleSignIn}
-          className="w-full h-12 px-6 bg-secondary hover:bg-secondary/80 flex items-center justify-center gap-3 text-foreground"
-        >
-          <User className="w-5 h-5" /> Sign in as Admin
         </Button>
       </CardContent>
 

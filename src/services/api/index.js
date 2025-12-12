@@ -3,11 +3,6 @@ import axios from "axios";
 let isRefreshing = false;
 let failedQueue = [];
 
-/**
- * Run queued request resolvers/rejecters and clear the queue.
- * @param {Error|null} error
- * @param {string|null} token
- */
 const processQueue = (error, token = null) => {
   failedQueue.forEach(({ resolve, reject }) => {
     if (error) reject(error);
