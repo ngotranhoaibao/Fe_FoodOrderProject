@@ -20,7 +20,6 @@ export const updateCartItem = async (foodId, quantity) => {
 };
 
 export const removeFromCart = async (foodId) => {
-  // Sử dụng phương thức DELETE
   const res = await api.delete(`/cart/${foodId}`);
   return res.data;
 };

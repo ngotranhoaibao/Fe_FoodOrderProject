@@ -4,10 +4,15 @@ import { getAllOrders, updateOrderStatus } from "../../services/api/order";
 import OrderTableData from "@/components/OrderTableData";
 import { toast } from "react-hot-toast";
 import { Card, CardContent } from "@/components/ui/card";
-
+import { adminSocket } from "../../socket/adminSocket";
 const OrderManagementPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hasNewOrders, setHasNewOrders] = useState(false);
+  const [newOrderCount, setNewOrderCount] = useState(0);
+  const columns = ["customer", "items", "total", "paymentMethod", "status"];
+  const [pendingChanges, setPendingChanges] = useState({});
+
   const ORDER_STATUSES = [
     "pending",
     "paid",
@@ -16,14 +21,19 @@ const OrderManagementPage = () => {
     "cancelled",
     "preparing",
   ];
-  const columns = [
-    "customer", 
-    "items", 
-    "total", 
-    "paymentMethod", 
-    "status"
-  ];
-  const [pendingChanges, setPendingChanges] = useState({});
+
+  useEffect(() => {
+    adminSocket.on("new_order", (order) => {
+      toast.success(`Đơn hàng mới #${order.orderId.substring(0, 8)}`);
+
+      setHasNewOrders(true);
+      setNewOrderCount((prev) => prev + 1);
+    });
+
+    return () => {
+      adminSocket.off("new_order");
+    };
+  }, []);
 
   const fetchOrders = useCallback(() => {
     setLoading(true);
@@ -109,6 +119,22 @@ const OrderManagementPage = () => {
         title="Order Management"
         description="Manage and update customer orders"
       />
+
+      {hasNewOrders && (
+        <div className="mb-4 flex justify-end">
+          <button
+            onClick={() => {
+              fetchOrders();
+              setHasNewOrders(false);
+              setNewOrderCount(0);
+            }}
+            className="bg-primary text-white px-4 py-2 rounded shadow"
+          >
+            {newOrderCount} đơn hàng mới – Refresh
+          </button>
+        </div>
+      )}
+
       <Card className="bg-white shadow-lg rounded-lg border-none">
         <CardContent>
           <OrderTableData

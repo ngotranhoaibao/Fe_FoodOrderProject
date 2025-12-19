@@ -6,7 +6,7 @@ import OrderSummaryCard from "../../components/OrderSummaryCard";
 
 import { getCart, updateCartItem, removeFromCart } from "@/services/api/cart";
 import { createOrder } from "@/services/api/order";
-
+import {io} from "socket.io-client";
 const CartPage = () => {
   const [cartData, setCartData] = useState(null);
   const [loading, setLoading] = useState(true);
